@@ -33,7 +33,7 @@ vraies réponses, utiliser une branche Neon distincte (Neon > Branches) pour le 
 ├── prisma/
 │   └── schema.prisma             Modèle Response (une ligne par participant)
 ├── public/
-│   └── veste.svg                 Visuel provisoire de la veste (à remplacer)
+│   └── veste.webp                Photo de la veste (étape 3)
 └── src/
     ├── app/
     │   ├── layout.tsx
@@ -125,8 +125,8 @@ Lecture sous R : `read.csv2("fichier.csv", fileEncoding = "UTF-8-BOM")`.
 
 ## Visuel de la veste
 
-Remplacer `public/veste.svg` par la photo officielle, ou déposer par exemple `public/veste.jpg` et
-modifier `PRODUCT_IMAGE` dans `src/lib/survey.ts`.
+La photo affichée à l'étape 3 est `public/veste.webp`. Pour la changer, remplacer ce fichier, ou
+déposer une autre image dans `public/` et modifier `PRODUCT_IMAGE` dans `src/lib/survey.ts`.
 
 ## Déploiement (Vercel + Neon, gratuit)
 

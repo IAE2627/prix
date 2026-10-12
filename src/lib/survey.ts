@@ -17,8 +17,8 @@ export const REFERENCE_PRICE = 245;
 /** Remise calculée à partir des deux prix, pour que l'affichage reste toujours exact. */
 export const DISCOUNT_LABEL = `-${Math.round((1 - PRICE / REFERENCE_PRICE) * 100)} %`;
 
-/** Remplacer ce fichier (ou ce chemin) par la photo officielle de la veste. */
-export const PRODUCT_IMAGE = '/veste.svg';
+/** Photo de la veste présentée à l'étape 3 (fichier dans public/). */
+export const PRODUCT_IMAGE = '/veste.webp';
 
 // ---------------------------------------------------------------------------
 // Partie 1 : pratique outdoor
