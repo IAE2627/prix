@@ -13,7 +13,7 @@ export const VERSIONS = ['A', 'B'] as const;
 export type Version = (typeof VERSIONS)[number];
 
 export const PRICE = 195;
-export const REFERENCE_PRICE = 249;
+export const REFERENCE_PRICE = 245;
 /** Remise calculée à partir des deux prix, pour que l'affichage reste toujours exact. */
 export const DISCOUNT_LABEL = `-${Math.round((1 - PRICE / REFERENCE_PRICE) * 100)} %`;
 
