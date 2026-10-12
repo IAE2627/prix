@@ -1,16 +1,17 @@
 'use client';
 
-import { LIKERT_MAX_LABEL, LIKERT_MIN_LABEL } from '@/lib/survey';
-
 interface LikertScaleProps {
   name: string;
   value: number | null;
   onChange: (value: number) => void;
+  /** Libellés des extrémités (1 et 5). */
+  minLabel: string;
+  maxLabel: string;
 }
 
 const POINTS = [1, 2, 3, 4, 5];
 
-export function LikertScale({ name, value, onChange }: LikertScaleProps) {
+export function LikertScale({ name, value, onChange, minLabel, maxLabel }: LikertScaleProps) {
   return (
     <div>
       <div role="radiogroup" className="grid grid-cols-5 gap-2">
@@ -32,7 +33,7 @@ export function LikertScale({ name, value, onChange }: LikertScaleProps) {
                 checked={checked}
                 onChange={() => onChange(point)}
                 aria-label={
-                  point === 1 ? `1, ${LIKERT_MIN_LABEL}` : point === 5 ? `5, ${LIKERT_MAX_LABEL}` : String(point)
+                  point === 1 ? `1, ${minLabel}` : point === 5 ? `5, ${maxLabel}` : String(point)
                 }
                 className="h-4 w-4"
               />
@@ -42,8 +43,8 @@ export function LikertScale({ name, value, onChange }: LikertScaleProps) {
         })}
       </div>
       <div className="mt-2 flex justify-between text-xs text-slate-500">
-        <span>1 = {LIKERT_MIN_LABEL}</span>
-        <span className="text-right">5 = {LIKERT_MAX_LABEL}</span>
+        <span>1 = {minLabel}</span>
+        <span className="text-right">5 = {maxLabel}</span>
       </div>
     </div>
   );

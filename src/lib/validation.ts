@@ -92,10 +92,11 @@ const completed = z
 
     brandKnown: z.enum(['oui', 'non']),
 
-    intention: likert,
-    qualite: likert,
-    promoQualite: likert,
-    recommandation: likert,
+    qpFiabilite: likert,
+    qpFabrication: likert,
+    qpQualite: likert,
+    qpConfiance: likert,
+    qpDurabilite: likert,
     vw: z.object({ m5: euro, m6: euro, m7: euro, m8: euro }),
     gg: z.object({
       '99': ggAnswer,

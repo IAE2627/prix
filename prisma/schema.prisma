@@ -52,7 +52,15 @@ model Response {
   // Partie 3 : produit
   marqueConnue String?
 
-  // Partie 4 : mesures (échelles de 1 à 5)
+  // Partie 4 : qualité perçue (échelles de 1 à 5, 5 = perception la plus favorable)
+  qpFiabilite   Int?
+  qpFabrication Int?
+  qpQualite     Int?
+  qpConfiance   Int?
+  qpDurabilite  Int?
+
+  // Anciennes mesures, remplacées par les 5 items de qualité perçue : conservées
+  // pour ne perdre aucune donnée, absentes du CSV.
   intentionAchat Int?
   qualitePercue  Int?
   promoQualite   Int?

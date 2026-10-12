@@ -20,7 +20,7 @@ import { Step4Measures, parseVw } from './Step4Measures';
 import { Step5Profile } from './Step5Profile';
 
 // Incrémenter la version quand la structure des réponses change (ex. paliers de prix).
-const STORAGE_KEY = 'etude-veste-outdoor:v3';
+const STORAGE_KEY = 'etude-veste-outdoor:v4';
 const STAGES: Stage[] = ['consent', 'step1', 'step2', 'step3', 'step4', 'step5', 'done', 'screenout'];
 
 /** Tirage aléatoire de la version A/B effectué une seule fois, au chargement. */
@@ -50,10 +50,11 @@ function createInitialState(): SurveyState {
     q5b: null,
     q6: [null, null, null],
     brandKnown: null,
-    intention: null,
-    qualite: null,
-    promoQualite: null,
-    recommandation: null,
+    qpFiabilite: null,
+    qpFabrication: null,
+    qpQualite: null,
+    qpConfiance: null,
+    qpDurabilite: null,
     vw: { m5: '', m6: '', m7: '', m8: '' },
     gg: Object.fromEntries(GG_PRICES.map((price) => [String(price), null])),
     manipCheck: null,
@@ -188,10 +189,11 @@ export default function Survey() {
       q5b: state.q5 === 'non_jamais' ? null : state.q5b,
       q6: state.q6,
       brandKnown: state.brandKnown,
-      intention: state.intention,
-      qualite: state.qualite,
-      promoQualite: state.promoQualite,
-      recommandation: state.recommandation,
+      qpFiabilite: state.qpFiabilite,
+      qpFabrication: state.qpFabrication,
+      qpQualite: state.qpQualite,
+      qpConfiance: state.qpConfiance,
+      qpDurabilite: state.qpDurabilite,
       vw: parseVw(state.vw),
       gg: state.gg,
       manipCheck: state.manipCheck,

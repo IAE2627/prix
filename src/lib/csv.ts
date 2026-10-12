@@ -61,10 +61,11 @@ const COLUMNS: { header: string; value: (row: Response) => Cell }[] = [
 
   { header: 'marque_connue', value: (r) => r.marqueConnue },
 
-  { header: 'intention_achat', value: (r) => r.intentionAchat },
-  { header: 'qualite_percue', value: (r) => r.qualitePercue },
-  { header: 'promo_moindre_qualite', value: (r) => r.promoQualite },
-  { header: 'recommandation', value: (r) => r.recommandation },
+  { header: 'qp_fiabilite', value: (r) => r.qpFiabilite },
+  { header: 'qp_fabrication', value: (r) => r.qpFabrication },
+  { header: 'qp_qualite', value: (r) => r.qpQualite },
+  { header: 'qp_confiance', value: (r) => r.qpConfiance },
+  { header: 'qp_durabilite', value: (r) => r.qpDurabilite },
 
   { header: 'vw_m5_trop_bon_marche', value: (r) => r.vwTropBonMarche },
   { header: 'vw_m6_bonne_affaire', value: (r) => r.vwBonneAffaire },

@@ -10,6 +10,7 @@ import { StepLayout } from '@/components/ui/StepLayout';
 import {
   GG_OPTIONS,
   MANIP_OPTIONS,
+  QUALITY_ITEMS,
   VW_FIELDS,
   parseEuro,
   vwCoherenceErrors,
@@ -21,14 +22,6 @@ import type { StepProps, SurveyState } from '@/lib/types';
 interface Step4Props extends StepProps {
   onNext: () => void;
 }
-
-type LikertKey = 'intention' | 'qualite' | 'promoQualite' | 'recommandation';
-
-const PERCEPTIONS: { key: LikertKey; statement: string }[] = [
-  { key: 'qualite', statement: 'Cette veste est probablement de très bonne qualité.' },
-  { key: 'promoQualite', statement: 'Un produit en promotion est généralement de moins bonne qualité.' },
-  { key: 'recommandation', statement: "Je recommanderais cette veste à quelqu'un qui me demande conseil." },
-];
 
 const REQUIRED = 'Merci de répondre à cette question.';
 
@@ -48,12 +41,10 @@ export function Step4Measures({ state, update, onNext }: Step4Props) {
   // Contrôle de cohérence évalué à chaque frappe, indépendamment du clic sur « Suivant ».
   const vwErrors = vwCoherenceErrors(vwValues);
 
-  const likertMissing = (key: LikertKey) => state[key] === null;
   const ggMissing = state.ggOrder.filter((price) => state.gg[String(price)] === null);
 
   const hasErrors =
-    likertMissing('intention') ||
-    PERCEPTIONS.some((item) => likertMissing(item.key)) ||
+    QUALITY_ITEMS.some((item) => state[item.key] === null) ||
     vwMissing ||
     vwErrors.length > 0 ||
     ggMissing.length > 0 ||
@@ -78,22 +69,19 @@ export function Step4Measures({ state, update, onNext }: Step4Props) {
 
   return (
     <StepLayout step={4} title="Votre avis sur cette veste" onNext={handleNext} alert={alert}>
-      <QuestionBlock
-        title="Au prix indiqué, j'envisagerais d'acheter cette veste."
-        hint="Indiquez votre degré d'accord."
-        error={showErrors && likertMissing('intention') ? REQUIRED : null}
-      >
-        <LikertScale name="intention" value={state.intention} onChange={(value) => update({ intention: value })} />
-      </QuestionBlock>
-
-      {PERCEPTIONS.map((item) => (
+      {QUALITY_ITEMS.map((item) => (
         <QuestionBlock
           key={item.key}
           title={item.statement}
-          hint="Indiquez votre degré d'accord."
-          error={showErrors && likertMissing(item.key) ? REQUIRED : null}
+          error={showErrors && state[item.key] === null ? REQUIRED : null}
         >
-          <LikertScale name={item.key} value={state[item.key]} onChange={(value) => update({ [item.key]: value })} />
+          <LikertScale
+            name={item.key}
+            value={state[item.key]}
+            onChange={(value) => update({ [item.key]: value })}
+            minLabel={item.minLabel}
+            maxLabel={item.maxLabel}
+          />
         </QuestionBlock>
       ))}
 

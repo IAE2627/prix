@@ -102,8 +102,43 @@ export type Ranking = [CriterionKey | null, CriterionKey | null, CriterionKey | 
 // Partie 4 : mesures
 // ---------------------------------------------------------------------------
 
-export const LIKERT_MIN_LABEL = "Pas du tout d'accord";
-export const LIKERT_MAX_LABEL = "Tout à fait d'accord";
+/**
+ * Qualité perçue : 5 items sur une échelle de 1 à 5, où 5 correspond toujours
+ * à la perception la plus favorable.
+ */
+export const QUALITY_ITEMS = [
+  {
+    key: 'qpFiabilite',
+    statement: 'La probabilité que le produit soit fiable est :',
+    minLabel: 'Très faible',
+    maxLabel: 'Très élevée',
+  },
+  {
+    key: 'qpFabrication',
+    statement: 'La qualité de fabrication du produit serait :',
+    minLabel: 'Très faible',
+    maxLabel: 'Très élevée',
+  },
+  {
+    key: 'qpQualite',
+    statement: 'Ce produit devrait être de :',
+    minLabel: 'Très mauvaise qualité',
+    maxLabel: 'Très bonne qualité',
+  },
+  {
+    key: 'qpConfiance',
+    statement: 'La probabilité que ce produit soit digne de confiance est :',
+    minLabel: 'Très faible',
+    maxLabel: 'Très élevée',
+  },
+  {
+    key: 'qpDurabilite',
+    statement: 'Ce produit semble durable.',
+    minLabel: "Pas du tout d'accord",
+    maxLabel: "Tout à fait d'accord",
+  },
+] as const;
+export type QualityKey = (typeof QUALITY_ITEMS)[number]['key'];
 
 export const VW_FIELDS = [
   {

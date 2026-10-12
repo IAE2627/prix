@@ -50,10 +50,11 @@ function toRow(data: Submission, submittedAt: Date) {
 
     marqueConnue: data.brandKnown,
 
-    intentionAchat: data.intention,
-    qualitePercue: data.qualite,
-    promoQualite: data.promoQualite,
-    recommandation: data.recommandation,
+    qpFiabilite: data.qpFiabilite,
+    qpFabrication: data.qpFabrication,
+    qpQualite: data.qpQualite,
+    qpConfiance: data.qpConfiance,
+    qpDurabilite: data.qpDurabilite,
 
     vwTropBonMarche: data.vw.m5,
     vwBonneAffaire: data.vw.m6,

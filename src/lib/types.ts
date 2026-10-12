@@ -47,10 +47,11 @@ export interface SurveyState {
 
   brandKnown: YesNo | null;
 
-  intention: number | null;
-  qualite: number | null;
-  promoQualite: number | null;
-  recommandation: number | null;
+  qpFiabilite: number | null;
+  qpFabrication: number | null;
+  qpQualite: number | null;
+  qpConfiance: number | null;
+  qpDurabilite: number | null;
   vw: Record<VwKey, string>;
   gg: Record<string, GgAnswer | null>;
   manipCheck: ManipAnswer | null;

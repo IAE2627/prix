@@ -30,6 +30,13 @@ function mean(values: (number | null)[]): string {
   return (numbers.reduce((sum, value) => sum + value, 0) / numbers.length).toFixed(2).replace('.', ',');
 }
 
+/** Score de qualité perçue : moyenne des 5 items, null si la réponse est antérieure à cette échelle. */
+function qualityScore(row: Response): number | null {
+  const items = [row.qpFiabilite, row.qpFabrication, row.qpQualite, row.qpConfiance, row.qpDurabilite];
+  if (items.some((item) => item === null)) return null;
+  return items.reduce<number>((sum, item) => sum + (item ?? 0), 0) / items.length;
+}
+
 function formatDuration(seconds: number): string {
   const minutes = Math.floor(seconds / 60);
   return `${minutes} min ${String(seconds % 60).padStart(2, '0')} s`;
@@ -54,9 +61,8 @@ function VersionSummary({ version, rows }: { version: string; rows: Response[] }
       </th>
       <td className="px-4 py-2.5 text-right tabular-nums">{rows.length}</td>
       <td className="px-4 py-2.5 text-right tabular-nums">{valid.length}</td>
-      <td className="px-4 py-2.5 text-right tabular-nums">{mean(rows.map((row) => row.intentionAchat))}</td>
-      <td className="px-4 py-2.5 text-right tabular-nums">{mean(valid.map((row) => row.intentionAchat))}</td>
-      <td className="px-4 py-2.5 text-right tabular-nums">{mean(rows.map((row) => row.qualitePercue))}</td>
+      <td className="px-4 py-2.5 text-right tabular-nums">{mean(rows.map(qualityScore))}</td>
+      <td className="px-4 py-2.5 text-right tabular-nums">{mean(valid.map(qualityScore))}</td>
     </tr>
   );
 }
@@ -111,16 +117,15 @@ export default async function AdminPage() {
       <section className="mt-6 overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm">
         <table className="w-full text-sm">
           <caption className="px-4 pt-4 text-left text-sm font-semibold text-slate-900">
-            Comparaison A/B (questionnaires complets, échelles de 1 à 5)
+            Comparaison A/B (questionnaires complets ; qualité perçue = moyenne des 5 items, de 1 à 5)
           </caption>
           <thead>
             <tr className="text-xs uppercase tracking-wide text-slate-500">
               <th scope="col" className="px-4 py-2.5 text-left font-medium">Condition</th>
               <th scope="col" className="px-4 py-2.5 text-right font-medium">n</th>
               <th scope="col" className="px-4 py-2.5 text-right font-medium">n valides</th>
-              <th scope="col" className="px-4 py-2.5 text-right font-medium">Intention moy.</th>
-              <th scope="col" className="px-4 py-2.5 text-right font-medium">Intention moy. (valides)</th>
               <th scope="col" className="px-4 py-2.5 text-right font-medium">Qualité perçue moy.</th>
+              <th scope="col" className="px-4 py-2.5 text-right font-medium">Qualité perçue moy. (valides)</th>
             </tr>
           </thead>
           <tbody>
@@ -147,7 +152,7 @@ export default async function AdminPage() {
                 'Valide',
                 'Sport principal',
                 'Niveau',
-                'Intention',
+                'Qualité perçue',
                 'VW (M5 / M6 / M7 / M8)',
                 'Genre',
                 'Âge',
@@ -194,7 +199,7 @@ export default async function AdminPage() {
                   </td>
                   <td className="max-w-48 truncate px-4 py-2.5">{row.q3SportLibelle ?? '–'}</td>
                   <td className="px-4 py-2.5">{labelOf(LEVELS, row.q4Niveau) || '–'}</td>
-                  <td className="px-4 py-2.5 tabular-nums">{row.intentionAchat ?? '–'}</td>
+                  <td className="px-4 py-2.5 tabular-nums">{mean([qualityScore(row)])}</td>
                   <td className="px-4 py-2.5 tabular-nums">
                     {row.vwTropBonMarche === null
                       ? '–'

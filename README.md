@@ -61,7 +61,7 @@ vraies réponses, utiliser une branche Neon distincte (Neon > Branches) pour le 
     │   │   ├── Step2Habits.tsx   Q5, Q5b, Q6
     │   │   ├── RankingMatrix.tsx Matrice de classement Q6
     │   │   ├── Step3Product.tsx  Fiche produit A/B
-    │   │   ├── Step4Measures.tsx Échelles, Van Westendorp, Gabor-Granger, manipulation check
+    │   │   ├── Step4Measures.tsx Qualité perçue, Van Westendorp, Gabor-Granger, manipulation check
     │   │   ├── Step5Profile.tsx  Profil + envoi
     │   │   └── EndScreen.tsx
     │   └── ui/
@@ -117,7 +117,7 @@ UTF-8 avec BOM, séparateur `;`, fins de ligne CRLF. Une ligne par participant.
 | `q5_achat_veste_technique` | `oui_12_derniers_mois`, `oui_1_a_3_ans`, `oui_plus_de_3_ans`, `non_jamais` |
 | `q5b_budget_derniere_veste` | `moins_de_80` … `plus_de_300`, `ne_sait_plus` (vide si Q5 = jamais) |
 | `q6_rang1..3` | critère classé à ce rang ; `q6_rang_<critère>` = 1, 2, 3 ou vide |
-| `intention_achat`, `qualite_percue`, `promo_moindre_qualite`, `recommandation` | 1 à 5 |
+| `qp_fiabilite`, `qp_fabrication`, `qp_qualite`, `qp_confiance`, `qp_durabilite` | Qualité perçue, 1 à 5 (5 = perception la plus favorable) |
 | `vw_m5..m8` | euros entiers |
 | `gg_99`, `gg_129`, `gg_179`, `gg_195`, `gg_239`, `gg_259` | `oui_certainement`, `probablement`, `probablement_pas`, `non` |
 | `manipulation_check` | `oui`, `non`, `ne_sait_pas` |
