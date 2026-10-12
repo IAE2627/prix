@@ -42,12 +42,14 @@ vraies réponses, utiliser une branche Neon distincte (Neon > Branches) pour le 
     │   ├── admin/
     │   │   ├── page.tsx          Tableau récapitulatif + bouton d'export
     │   │   ├── LoginForm.tsx
+    │   │   ├── DeleteButton.tsx
     │   │   └── LogoutButton.tsx
     │   └── api/
     │       ├── responses/route.ts        POST : validation + enregistrement
     │       └── admin/
     │           ├── login/route.ts        POST : ouverture de session
     │           ├── logout/route.ts       POST : fermeture de session
+    │           ├── responses/[id]/route.ts  DELETE : suppression d'une réponse
     │           └── export/route.ts       GET  : CSV complet
     ├── components/
     │   ├── survey/

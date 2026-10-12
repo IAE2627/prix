@@ -4,6 +4,7 @@ import { Download } from 'lucide-react';
 import { isAdminAuthenticated, isAdminConfigured } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { GENDERS, LEVELS, MANIP_OPTIONS, labelOf } from '@/lib/survey';
+import { DeleteButton } from './DeleteButton';
 import { LoginForm } from './LoginForm';
 import { LogoutButton } from './LogoutButton';
 
@@ -137,6 +138,7 @@ export default async function AdminPage() {
             <tr className="text-xs uppercase tracking-wide text-slate-500">
               {[
                 'ID',
+                'Action',
                 'Date',
                 'Statut',
                 'Version',
@@ -159,7 +161,7 @@ export default async function AdminPage() {
           <tbody>
             {rows.length === 0 && (
               <tr>
-                <td colSpan={13} className="px-4 py-10 text-center text-slate-500">
+                <td colSpan={14} className="px-4 py-10 text-center text-slate-500">
                   Aucune réponse enregistrée pour le moment.
                 </td>
               </tr>
@@ -169,6 +171,9 @@ export default async function AdminPage() {
               return (
                 <tr key={row.id} className="border-t border-slate-100">
                   <td className="px-4 py-2.5 tabular-nums text-slate-500">{row.id}</td>
+                  <td className="px-4 py-2.5">
+                    <DeleteButton id={row.id} />
+                  </td>
                   <td className="px-4 py-2.5 tabular-nums">{dateFormat.format(row.submittedAt)}</td>
                   <td className="px-4 py-2.5">
                     <span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${status.className}`}>
