@@ -12,9 +12,10 @@ export const STUDY_TITLE = "Étude sur la perception du prix d'une veste outdoor
 export const VERSIONS = ['A', 'B'] as const;
 export type Version = (typeof VERSIONS)[number];
 
-export const PRICE = 199;
+export const PRICE = 195;
 export const REFERENCE_PRICE = 249;
-export const DISCOUNT_LABEL = '-20 %';
+/** Remise calculée à partir des deux prix, pour que l'affichage reste toujours exact. */
+export const DISCOUNT_LABEL = `-${Math.round((1 - PRICE / REFERENCE_PRICE) * 100)} %`;
 
 /** Remplacer ce fichier (ou ce chemin) par la photo officielle de la veste. */
 export const PRODUCT_IMAGE = '/veste.svg';

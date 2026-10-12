@@ -107,7 +107,7 @@ UTF-8 avec BOM, séparateur `;`, fins de ligne CRLF. Une ligne par participant.
 | Variable | Valeurs |
 | --- | --- |
 | `status` | `completed`, `screened_out_q1`, `screened_out_q2` |
-| `assigned_version` | `A` (199 €), `B` (249 € barré, 199 €, -20 %) |
+| `assigned_version` | `A` (195 €), `B` (249 € barré, 195 €, -22 %) |
 | `is_valid_manipulation` | `true` / `false` |
 | `q2_*` | `jamais`, `quelques_fois_par_an`, `1_a_3_fois_par_mois`, `chaque_semaine` |
 | `q3_sport_principal` | clé du sport ; `q3_sport_principal_libelle` contient le libellé affiché |

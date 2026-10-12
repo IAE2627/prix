@@ -3,7 +3,7 @@ import type { Response } from '@prisma/client';
 import { Download } from 'lucide-react';
 import { isAdminAuthenticated, isAdminConfigured } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-import { GENDERS, LEVELS, MANIP_OPTIONS, labelOf } from '@/lib/survey';
+import { GENDERS, LEVELS, MANIP_OPTIONS, PRICE, labelOf } from '@/lib/survey';
 import { DeleteButton } from './DeleteButton';
 import { LoginForm } from './LoginForm';
 import { LogoutButton } from './LogoutButton';
@@ -96,7 +96,7 @@ export default async function AdminPage() {
       <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-5">
         <StatCard label="Questionnaires complets" value={completed.length} />
         <StatCard label="Screen-outs" value={screenedOut} detail="Q1 = Non ou Q2 tout à « Jamais »" />
-        <StatCard label="Version A (199 €)" value={versionA.length} />
+        <StatCard label={`Version A (${PRICE} €)`} value={versionA.length} />
         <StatCard label="Version B (promotion)" value={versionB.length} />
         <StatCard
           label="Manipulation check valide"

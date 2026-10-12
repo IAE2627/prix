@@ -20,7 +20,7 @@ model Response {
 
   /// "completed" | "screened_out_q1" | "screened_out_q2"
   status          String
-  /// "A" (199 €) | "B" (249 € barré, 199 €, -20 %)
+  /// "A" (prix seul) | "B" (prix de référence barré + remise) ; montants dans src/lib/survey.ts
   assignedVersion String
 
   startedAt       DateTime
