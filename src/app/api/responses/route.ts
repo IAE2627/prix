@@ -64,7 +64,7 @@ function toRow(data: Submission, submittedAt: Date) {
     gg99: data.gg['99'],
     gg129: data.gg['129'],
     gg179: data.gg['179'],
-    gg199: data.gg['199'],
+    gg195: data.gg['195'],
     gg239: data.gg['239'],
     gg259: data.gg['259'],
     ggOrdre: data.ggOrder.join('|'),

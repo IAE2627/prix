@@ -33,7 +33,7 @@ export function Step3Product({ state, update, onNext, onBack }: Step3Props) {
       onBack={onBack}
       alert={showErrors && hasErrors ? 'Merci de répondre à la question avant de continuer.' : null}
     >
-      <p className="text-sm leading-relaxed text-slate-600">
+      <p className="text-sm leading-relaxed text-slate-700">
         Prenez le temps d&apos;observer la fiche produit ci-dessous : les questions suivantes porteront sur
         cette veste.
       </p>

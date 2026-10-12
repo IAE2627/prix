@@ -132,7 +132,7 @@ export const VW_FIELDS = [
 export type VwKey = (typeof VW_FIELDS)[number]['key'];
 export const VW_MAX = 100000;
 
-export const GG_PRICES = [99, 129, 179, 199, 239, 259] as const;
+export const GG_PRICES = [99, 129, 179, 195, 239, 259] as const;
 export type GgPrice = (typeof GG_PRICES)[number];
 
 export const GG_OPTIONS = [

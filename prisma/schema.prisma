@@ -68,10 +68,12 @@ model Response {
   gg99    String?
   gg129   String?
   gg179   String?
+  gg195   String?
+  /// Ancien palier 199 €, remplacé par 195 € : conservé pour ne perdre aucune donnée, absent du CSV.
   gg199   String?
   gg239   String?
   gg259   String?
-  /// Ordre d'affichage des paliers pour ce répondant, ex. "199|99|259|129|239|179"
+  /// Ordre d'affichage des paliers pour ce répondant, ex. "195|99|259|129|239|179"
   ggOrdre String?
 
   // Manipulation check

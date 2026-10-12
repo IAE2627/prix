@@ -11,6 +11,7 @@ import {
   type FrequencyMatrix,
 } from '@/lib/survey';
 import type { Stage, SurveyState } from '@/lib/types';
+import { Backdrop } from './Backdrop';
 import { ConsentScreen } from './ConsentScreen';
 import { EndScreen } from './EndScreen';
 import { Step1Practice } from './Step1Practice';
@@ -19,7 +20,8 @@ import { Step3Product } from './Step3Product';
 import { Step4Measures, parseVw } from './Step4Measures';
 import { Step5Profile } from './Step5Profile';
 
-const STORAGE_KEY = 'etude-veste-outdoor:v1';
+// Incrémenter la version quand la structure des réponses change (ex. paliers de prix).
+const STORAGE_KEY = 'etude-veste-outdoor:v2';
 const STAGES: Stage[] = ['consent', 'step1', 'step2', 'step3', 'step4', 'step5', 'done', 'screenout'];
 
 /** Tirages aléatoires (version A/B, ordre Gabor-Granger) effectués une seule fois, au chargement. */
@@ -137,6 +139,7 @@ export default function Survey() {
   if (!state) {
     return (
       <main className="flex min-h-screen items-center justify-center text-slate-500">
+        <Backdrop />
         <Loader2 className="h-6 w-6 animate-spin" aria-label="Chargement" />
       </main>
     );
@@ -211,7 +214,8 @@ export default function Survey() {
 
   return (
     <main className="mx-auto w-full max-w-3xl px-4 pb-16 pt-6 sm:pt-10">
-      <header className="mb-6 flex items-center gap-2 text-sm font-medium text-slate-600">
+      <Backdrop />
+      <header className="mb-6 flex items-center gap-2 text-sm font-medium text-slate-700">
         <Mountain className="h-5 w-5 text-emerald-700" aria-hidden />
         Master Marketing-Vente · IAE Clermont-Auvergne
       </header>

@@ -74,7 +74,7 @@ const COLUMNS: { header: string; value: (row: Response) => Cell }[] = [
   { header: 'gg_99', value: (r) => r.gg99 },
   { header: 'gg_129', value: (r) => r.gg129 },
   { header: 'gg_179', value: (r) => r.gg179 },
-  { header: 'gg_199', value: (r) => r.gg199 },
+  { header: 'gg_195', value: (r) => r.gg195 },
   { header: 'gg_239', value: (r) => r.gg239 },
   { header: 'gg_259', value: (r) => r.gg259 },
   { header: 'gg_ordre_affichage', value: (r) => r.ggOrdre },

@@ -33,7 +33,8 @@ vraies réponses, utiliser une branche Neon distincte (Neon > Branches) pour le 
 ├── prisma/
 │   └── schema.prisma             Modèle Response (une ligne par participant)
 ├── public/
-│   └── veste.webp                Photo de la veste (étape 3)
+│   ├── veste.webp                Photo de la veste (étape 3)
+│   └── fond-montagne.webp        Arrière-plan du questionnaire
 └── src/
     ├── app/
     │   ├── layout.tsx
@@ -54,6 +55,7 @@ vraies réponses, utiliser une branche Neon distincte (Neon > Branches) pour le 
     ├── components/
     │   ├── survey/
     │   │   ├── Survey.tsx        Orchestrateur : randomisation, étapes, envoi
+    │   │   ├── Backdrop.tsx      Arrière-plan flouté
     │   │   ├── ConsentScreen.tsx
     │   │   ├── Step1Practice.tsx Q1 à Q4 + screen-outs
     │   │   ├── Step2Habits.tsx   Q5, Q5b, Q6
@@ -89,7 +91,7 @@ vraies réponses, utiliser une branche Neon distincte (Neon > Branches) pour le 
 | Q4 contextualisée | « Quel est votre niveau en « sport » ? » |
 | Q6 | Une case par ligne et par colonne ; cliquer un rang déjà pris remplace l'ancien critère. |
 | Van Westendorp | Alerte en temps réel et blocage si M5 < M6 < M7 < M8 n'est pas respecté. |
-| Gabor-Granger | 6 paliers uniques, ordre mélangé par répondant, ordre enregistré dans `gg_ordre_affichage`. |
+| Gabor-Granger | 6 paliers uniques (99, 129, 179, 195, 239, 259 €), ordre mélangé par répondant, ordre enregistré dans `gg_ordre_affichage`. |
 | Manipulation check | `is_valid_manipulation` recalculé côté serveur. |
 
 Choix complémentaires :
@@ -117,7 +119,7 @@ UTF-8 avec BOM, séparateur `;`, fins de ligne CRLF. Une ligne par participant.
 | `q6_rang1..3` | critère classé à ce rang ; `q6_rang_<critère>` = 1, 2, 3 ou vide |
 | `intention_achat`, `qualite_percue`, `promo_moindre_qualite`, `recommandation` | 1 à 5 |
 | `vw_m5..m8` | euros entiers |
-| `gg_99..gg_259` | `oui_certainement`, `probablement`, `probablement_pas`, `non` |
+| `gg_99`, `gg_129`, `gg_179`, `gg_195`, `gg_239`, `gg_259` | `oui_certainement`, `probablement`, `probablement_pas`, `non` |
 | `manipulation_check` | `oui`, `non`, `ne_sait_pas` |
 | `budget_loisirs_mensuel` | 0 à 500 par pas de 10 ; 500 = « 500 € et plus » |
 
