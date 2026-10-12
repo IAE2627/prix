@@ -1,1 +1,135 @@
-# prix
+# Étude sur la perception du prix d'une veste outdoor
+
+Application de collecte pour une étude marketing (master Marketing-Vente, IAE Clermont-Auvergne) :
+questionnaire multi-étapes avec A/B testing du prix, Van Westendorp, Gabor-Granger, espace `/admin`
+et export CSV.
+
+Stack : Next.js (App Router, TypeScript), Tailwind CSS, Lucide Icons, Prisma + SQLite, Zod.
+
+## Démarrage local
+
+```bash
+npm install
+cp .env.example .env        # puis modifier ADMIN_PASSWORD dans .env
+npx prisma db push          # crée prisma/etude.db
+npm run dev                 # http://localhost:3000
+```
+
+- Questionnaire : http://localhost:3000
+- Administration : http://localhost:3000/admin (mot de passe = `ADMIN_PASSWORD`)
+
+Production : `npm run build` puis `npm run start`.
+
+## Arborescence
+
+```
+.
+├── .env.example                  Variables d'environnement (DATABASE_URL, ADMIN_PASSWORD)
+├── next.config.ts
+├── postcss.config.mjs            Tailwind CSS v4
+├── tsconfig.json
+├── package.json
+├── prisma/
+│   └── schema.prisma             Modèle Response (une ligne par participant)
+├── public/
+│   └── veste.svg                 Visuel provisoire de la veste (à remplacer)
+└── src/
+    ├── app/
+    │   ├── layout.tsx
+    │   ├── globals.css
+    │   ├── page.tsx              Questionnaire
+    │   ├── admin/
+    │   │   ├── page.tsx          Tableau récapitulatif + bouton d'export
+    │   │   ├── LoginForm.tsx
+    │   │   └── LogoutButton.tsx
+    │   └── api/
+    │       ├── responses/route.ts        POST : validation + enregistrement
+    │       └── admin/
+    │           ├── login/route.ts        POST : ouverture de session
+    │           ├── logout/route.ts       POST : fermeture de session
+    │           └── export/route.ts       GET  : CSV complet
+    ├── components/
+    │   ├── survey/
+    │   │   ├── Survey.tsx        Orchestrateur : randomisation, étapes, envoi
+    │   │   ├── ConsentScreen.tsx
+    │   │   ├── Step1Practice.tsx Q1 à Q4 + screen-outs
+    │   │   ├── Step2Habits.tsx   Q5, Q5b, Q6
+    │   │   ├── RankingMatrix.tsx Matrice de classement Q6
+    │   │   ├── Step3Product.tsx  Fiche produit A/B
+    │   │   ├── Step4Measures.tsx Échelles, Van Westendorp, Gabor-Granger, manipulation check
+    │   │   ├── Step5Profile.tsx  Profil + envoi
+    │   │   └── EndScreen.tsx
+    │   └── ui/
+    │       ├── StepLayout.tsx    Progression, navigation, alertes
+    │       ├── QuestionBlock.tsx
+    │       ├── RadioList.tsx
+    │       ├── LikertScale.tsx
+    │       ├── MatrixQuestion.tsx
+    │       └── RangeSlider.tsx
+    └── lib/
+        ├── survey.ts             Libellés, codes et règles métier partagées
+        ├── types.ts              État du formulaire
+        ├── validation.ts         Schéma Zod (validation serveur)
+        ├── prisma.ts
+        ├── auth.ts               Session admin (cookie signé HMAC)
+        └── csv.ts                Export CSV
+```
+
+## Règles méthodologiques implémentées
+
+| Règle | Implémentation |
+| --- | --- |
+| Randomisation A/B 50/50 | Tirage `crypto` au chargement, conservé pour l'onglet (un rechargement ne change pas la condition), enregistré dans `assigned_version`. |
+| Screen-out Q1 | « Non » redirige immédiatement vers l'écran de fin. |
+| Screen-out Q2 | Toutes les lignes à « Jamais » (y compris « Autre ») : écran de fin au clic sur « Suivant ». |
+| Q3 dynamique | Uniquement les sports pratiqués en Q2 ; « Autre » affiche le texte saisi. |
+| Q4 contextualisée | « Quel est votre niveau en « sport » ? » |
+| Q6 | Une case par ligne et par colonne ; cliquer un rang déjà pris remplace l'ancien critère. |
+| Van Westendorp | Alerte en temps réel et blocage si M5 < M6 < M7 < M8 n'est pas respecté. |
+| Gabor-Granger | 6 paliers uniques, ordre mélangé par répondant, ordre enregistré dans `gg_ordre_affichage`. |
+| Manipulation check | `is_valid_manipulation` recalculé côté serveur. |
+
+Choix complémentaires :
+
+- Les screen-outs sont enregistrés (`status`) pour pouvoir calculer le taux d'éligibilité.
+- Pas de bouton « Précédent » à l'étape 4 : revoir la fiche produit fausserait le manipulation check.
+- Les réglettes (âge, budget) n'ont pas de valeur par défaut : le répondant doit les déplacer.
+- Toutes les réponses sont revalidées côté serveur (`src/lib/validation.ts`).
+- Aucune adresse IP ni donnée identifiante n'est stockée.
+
+## Export CSV
+
+UTF-8 avec BOM, séparateur `;`, fins de ligne CRLF. Une ligne par participant.
+
+| Variable | Valeurs |
+| --- | --- |
+| `status` | `completed`, `screened_out_q1`, `screened_out_q2` |
+| `assigned_version` | `A` (199 €), `B` (249 € barré, 199 €, -20 %) |
+| `is_valid_manipulation` | `true` / `false` |
+| `q2_*` | `jamais`, `quelques_fois_par_an`, `1_a_3_fois_par_mois`, `chaque_semaine` |
+| `q3_sport_principal` | clé du sport ; `q3_sport_principal_libelle` contient le libellé affiché |
+| `q4_niveau` | `debutant`, `intermediaire`, `confirme`, `expert` |
+| `q5_achat_veste_technique` | `oui_12_derniers_mois`, `oui_1_a_3_ans`, `oui_plus_de_3_ans`, `non_jamais` |
+| `q5b_budget_derniere_veste` | `moins_de_80` … `plus_de_300`, `ne_sait_plus` (vide si Q5 = jamais) |
+| `q6_rang1..3` | critère classé à ce rang ; `q6_rang_<critère>` = 1, 2, 3 ou vide |
+| `intention_achat`, `qualite_percue`, `promo_moindre_qualite`, `recommandation` | 1 à 5 |
+| `vw_m5..m8` | euros entiers |
+| `gg_99..gg_259` | `oui_certainement`, `probablement`, `probablement_pas`, `non` |
+| `manipulation_check` | `oui`, `non`, `ne_sait_pas` |
+| `budget_loisirs_mensuel` | 0 à 500 par pas de 10 ; 500 = « 500 € et plus » |
+
+Lecture sous R : `read.csv2("fichier.csv", fileEncoding = "UTF-8-BOM")`.
+
+## Visuel de la veste
+
+Remplacer `public/veste.svg` par la photo officielle, ou déposer par exemple `public/veste.jpg` et
+modifier `PRODUCT_IMAGE` dans `src/lib/survey.ts`.
+
+## Déploiement
+
+SQLite écrit dans un fichier : il faut un hébergement avec disque persistant (VPS, Railway ou Fly.io
+avec volume). Sur Vercel ou Netlify, le système de fichiers est éphémère et les réponses seraient
+perdues : dans ce cas, passer `provider` à `postgresql` dans `prisma/schema.prisma` et pointer
+`DATABASE_URL` vers une base Postgres gratuite (Neon, Supabase).
+
+Dans tous les cas, définir `ADMIN_PASSWORD` avec une valeur longue et servir le site en HTTPS.
