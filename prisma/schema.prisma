@@ -1,0 +1,86 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+/// Une ligne par participant (questionnaire complet ou screen-out).
+/// SQLite ne gère pas les enums : les modalités sont stockées sous forme de
+/// codes texte, listés dans src/lib/survey.ts.
+model Response {
+  id           Int    @id @default(autoincrement())
+  respondentId String @unique
+
+  /// "completed" | "screened_out_q1" | "screened_out_q2"
+  status          String
+  /// "A" (199 €) | "B" (249 € barré, 199 €, -20 %)
+  assignedVersion String
+
+  startedAt       DateTime
+  submittedAt     DateTime @default(now())
+  durationSeconds Int
+
+  // Partie 1 : pratique outdoor
+  q1Pratique       String
+  q2Randonnee      String?
+  q2Trail          String?
+  q2Ski            String?
+  q2Alpinisme      String?
+  q2Vtt            String?
+  q2Nautique       String?
+  q2Camping        String?
+  q2Autre          String?
+  q2AutreTexte     String?
+  q3SportPrincipal String?
+  q3SportLibelle   String?
+  q4Niveau         String?
+
+  // Partie 2 : habitudes d'achat
+  q5AchatVeste String?
+  q5bBudget    String?
+  q6Rang1      String?
+  q6Rang2      String?
+  q6Rang3      String?
+
+  // Partie 3 : produit
+  marqueConnue String?
+
+  // Partie 4 : mesures (échelles de 1 à 5)
+  intentionAchat Int?
+  qualitePercue  Int?
+  promoQualite   Int?
+  recommandation Int?
+
+  // Van Westendorp (en euros)
+  vwTropBonMarche Int?
+  vwBonneAffaire  Int?
+  vwCher          Int?
+  vwTropCher      Int?
+
+  // Gabor-Granger
+  gg99    String?
+  gg129   String?
+  gg179   String?
+  gg199   String?
+  gg239   String?
+  gg259   String?
+  /// Ordre d'affichage des paliers pour ce répondant, ex. "199|99|259|129|239|179"
+  ggOrdre String?
+
+  // Manipulation check
+  manipCheck          String?
+  isValidManipulation Boolean?
+
+  // Partie 5 : profil
+  genre         String?
+  age           Int?
+  situation     String?
+  /// 500 = « 500 € et plus »
+  budgetLoisirs Int?
+
+  @@index([status])
+  @@index([assignedVersion])
+}
