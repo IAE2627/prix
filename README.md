@@ -98,7 +98,7 @@ Choix complémentaires :
 
 - Les screen-outs sont enregistrés (`status`) pour pouvoir calculer le taux d'éligibilité.
 - Pas de bouton « Précédent » à l'étape 4 : revoir la fiche produit fausserait le manipulation check.
-- Les réglettes (âge, budget) n'ont pas de valeur par défaut : le répondant doit les déplacer.
+- La réglette d'âge n'a pas de valeur par défaut : le répondant doit la déplacer.
 - Toutes les réponses sont revalidées côté serveur (`src/lib/validation.ts`).
 - Aucune adresse IP ni donnée identifiante n'est stockée.
 
@@ -121,7 +121,7 @@ UTF-8 avec BOM, séparateur `;`, fins de ligne CRLF. Une ligne par participant.
 | `vw_m5..m8` | euros entiers |
 | `gg_99`, `gg_129`, `gg_179`, `gg_195`, `gg_239`, `gg_259` | `oui_certainement`, `probablement`, `probablement_pas`, `non` |
 | `manipulation_check` | `oui`, `non`, `ne_sait_pas` |
-| `budget_loisirs_mensuel` | 0 à 500 par pas de 10 ; 500 = « 500 € et plus » |
+| `eng_ressources`, `eng_temps`, `eng_efforts`, `eng_place`, `eng_occasions` | Engagement dans la pratique, 1 (pas du tout d'accord) à 5 (tout à fait d'accord) |
 
 Lecture sous R : `read.csv2("fichier.csv", fileEncoding = "UTF-8-BOM")`.
 

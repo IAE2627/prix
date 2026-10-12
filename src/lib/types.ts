@@ -59,7 +59,11 @@ export interface SurveyState {
   genre: Gender | null;
   age: number | null;
   situation: Situation | null;
-  budget: number | null;
+  engRessources: number | null;
+  engTemps: number | null;
+  engEfforts: number | null;
+  engPlace: number | null;
+  engOccasions: number | null;
 }
 
 export type UpdateState = (patch: Partial<SurveyState>) => void;

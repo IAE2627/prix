@@ -20,7 +20,7 @@ import { Step4Measures, parseVw } from './Step4Measures';
 import { Step5Profile } from './Step5Profile';
 
 // Incrémenter la version quand la structure des réponses change (ex. paliers de prix).
-const STORAGE_KEY = 'etude-veste-outdoor:v4';
+const STORAGE_KEY = 'etude-veste-outdoor:v5';
 const STAGES: Stage[] = ['consent', 'step1', 'step2', 'step3', 'step4', 'step5', 'done', 'screenout'];
 
 /** Tirage aléatoire de la version A/B effectué une seule fois, au chargement. */
@@ -61,7 +61,11 @@ function createInitialState(): SurveyState {
     genre: null,
     age: null,
     situation: null,
-    budget: null,
+    engRessources: null,
+    engTemps: null,
+    engEfforts: null,
+    engPlace: null,
+    engOccasions: null,
   };
 }
 
@@ -200,7 +204,11 @@ export default function Survey() {
       genre: state.genre,
       age: state.age,
       situation: state.situation,
-      budget: state.budget,
+      engRessources: state.engRessources,
+      engTemps: state.engTemps,
+      engEfforts: state.engEfforts,
+      engPlace: state.engPlace,
+      engOccasions: state.engOccasions,
     });
     setSubmitting(false);
     if (ok) {

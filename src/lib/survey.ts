@@ -206,10 +206,21 @@ export type Situation = (typeof SITUATIONS)[number]['value'];
 
 export const AGE_MIN = 18;
 export const AGE_MAX = 90;
-export const BUDGET_MIN = 0;
-/** La borne haute de la réglette signifie « 500 € et plus ». */
-export const BUDGET_MAX = 500;
-export const BUDGET_STEP = 10;
+
+/** Engagement dans la pratique : 5 items, de 1 (pas du tout d'accord) à 5 (tout à fait d'accord). */
+export const ENGAGEMENT_ITEMS = [
+  {
+    key: 'engRessources',
+    statement: 'Je suis prêt(e) à consacrer des ressources (temps ou argent) à cette passion.',
+  },
+  { key: 'engTemps', statement: 'Je consacre beaucoup de temps à ma passion.' },
+  { key: 'engEfforts', statement: 'Je fais des efforts pour progresser dans cette activité.' },
+  { key: 'engPlace', statement: 'Ma passion occupe une place importante dans ma vie.' },
+  { key: 'engOccasions', statement: 'Je cherche régulièrement des occasions de pratiquer ma passion.' },
+] as const;
+export type EngagementKey = (typeof ENGAGEMENT_ITEMS)[number]['key'];
+export const AGREEMENT_MIN_LABEL = "Pas du tout d'accord";
+export const AGREEMENT_MAX_LABEL = "Tout à fait d'accord";
 
 export const RESPONSE_STATUSES = ['completed', 'screened_out_q1', 'screened_out_q2'] as const;
 export type ResponseStatus = (typeof RESPONSE_STATUSES)[number];
@@ -304,8 +315,4 @@ export function labelOf(
 ): string {
   if (!value) return '';
   return options.find((option) => option.value === value)?.label ?? value;
-}
-
-export function formatBudget(value: number): string {
-  return value >= BUDGET_MAX ? `${BUDGET_MAX} € et plus` : `${value} €`;
 }

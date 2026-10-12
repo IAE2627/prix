@@ -85,7 +85,11 @@ const COLUMNS: { header: string; value: (row: Response) => Cell }[] = [
   { header: 'genre', value: (r) => r.genre },
   { header: 'age', value: (r) => r.age },
   { header: 'situation', value: (r) => r.situation },
-  { header: 'budget_loisirs_mensuel', value: (r) => r.budgetLoisirs },
+  { header: 'eng_ressources', value: (r) => r.engRessources },
+  { header: 'eng_temps', value: (r) => r.engTemps },
+  { header: 'eng_efforts', value: (r) => r.engEfforts },
+  { header: 'eng_place', value: (r) => r.engPlace },
+  { header: 'eng_occasions', value: (r) => r.engOccasions },
 ];
 
 /** CSV UTF-8 avec BOM, séparateur point-virgule, fins de ligne CRLF. */

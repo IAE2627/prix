@@ -76,7 +76,11 @@ function toRow(data: Submission, submittedAt: Date) {
     genre: data.genre,
     age: data.age,
     situation: data.situation,
-    budgetLoisirs: data.budget,
+    engRessources: data.engRessources,
+    engTemps: data.engTemps,
+    engEfforts: data.engEfforts,
+    engPlace: data.engPlace,
+    engOccasions: data.engOccasions,
   };
 }
 

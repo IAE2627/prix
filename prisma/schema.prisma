@@ -92,7 +92,16 @@ model Response {
   genre         String?
   age           Int?
   situation     String?
-  /// 500 = « 500 € et plus »
+
+  // Engagement dans la pratique (échelles de 1 à 5, 5 = tout à fait d'accord)
+  engRessources Int?
+  engTemps      Int?
+  engEfforts    Int?
+  engPlace      Int?
+  engOccasions  Int?
+
+  /// Ancienne question de budget mensuel (500 = « 500 € et plus »), remplacée par
+  /// l'échelle d'engagement : conservée pour ne perdre aucune donnée, absente du CSV.
   budgetLoisirs Int?
 
   @@index([status])

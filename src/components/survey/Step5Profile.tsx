@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { LikertScale } from '@/components/ui/LikertScale';
 import { QuestionBlock } from '@/components/ui/QuestionBlock';
 import { RadioList } from '@/components/ui/RadioList';
 import { RangeSlider } from '@/components/ui/RangeSlider';
@@ -8,12 +9,11 @@ import { StepLayout } from '@/components/ui/StepLayout';
 import {
   AGE_MAX,
   AGE_MIN,
-  BUDGET_MAX,
-  BUDGET_MIN,
-  BUDGET_STEP,
+  AGREEMENT_MAX_LABEL,
+  AGREEMENT_MIN_LABEL,
+  ENGAGEMENT_ITEMS,
   GENDERS,
   SITUATIONS,
-  formatBudget,
 } from '@/lib/survey';
 import type { StepProps } from '@/lib/types';
 
@@ -31,7 +31,10 @@ export function Step5Profile({ state, update, onSubmit, onBack, submitting, subm
   const [showErrors, setShowErrors] = useState(false);
 
   const hasErrors =
-    state.genre === null || state.age === null || state.situation === null || state.budget === null;
+    state.genre === null ||
+    state.age === null ||
+    state.situation === null ||
+    ENGAGEMENT_ITEMS.some((item) => state[item.key] === null);
 
   const handleSubmit = () => {
     if (hasErrors) {
@@ -89,23 +92,25 @@ export function Step5Profile({ state, update, onSubmit, onBack, submitting, subm
         />
       </QuestionBlock>
 
-      <QuestionBlock
-        title="Votre budget mensuel « loisirs / équipement sportif » approximatif :"
-        error={showErrors && state.budget === null ? SLIDER_REQUIRED : null}
-      >
-        <RangeSlider
-          id="budget"
-          min={BUDGET_MIN}
-          max={BUDGET_MAX}
-          step={BUDGET_STEP}
-          value={state.budget}
-          onChange={(value) => update({ budget: value })}
-          format={formatBudget}
-          minLabel={`${BUDGET_MIN} €`}
-          maxLabel={`${BUDGET_MAX} € et plus`}
-          ariaLabel="Votre budget mensuel loisirs et équipement sportif"
-        />
-      </QuestionBlock>
+      <p className="pt-2 text-sm font-medium leading-relaxed text-slate-800">
+        Pour finir, indiquez votre degré d&apos;accord avec les affirmations suivantes.
+      </p>
+
+      {ENGAGEMENT_ITEMS.map((item) => (
+        <QuestionBlock
+          key={item.key}
+          title={item.statement}
+          error={showErrors && state[item.key] === null ? REQUIRED : null}
+        >
+          <LikertScale
+            name={item.key}
+            value={state[item.key]}
+            onChange={(value) => update({ [item.key]: value })}
+            minLabel={AGREEMENT_MIN_LABEL}
+            maxLabel={AGREEMENT_MAX_LABEL}
+          />
+        </QuestionBlock>
+      ))}
     </StepLayout>
   );
 }

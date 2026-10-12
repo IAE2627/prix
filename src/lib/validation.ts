@@ -2,8 +2,6 @@ import { z } from 'zod';
 import {
   AGE_MAX,
   AGE_MIN,
-  BUDGET_MAX,
-  BUDGET_MIN,
   CRITERIA,
   FREQUENCIES,
   GENDERS,
@@ -111,7 +109,11 @@ const completed = z
     genre: z.enum(valuesOf(GENDERS)),
     age: z.number().int().min(AGE_MIN).max(AGE_MAX),
     situation: z.enum(valuesOf(SITUATIONS)),
-    budget: z.number().int().min(BUDGET_MIN).max(BUDGET_MAX),
+    engRessources: likert,
+    engTemps: likert,
+    engEfforts: likert,
+    engPlace: likert,
+    engOccasions: likert,
   })
   .superRefine((data, ctx) => {
     if (data.q1 === 'non') {
