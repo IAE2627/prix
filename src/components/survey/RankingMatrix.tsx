@@ -57,7 +57,8 @@ export function RankingMatrix({ value, onChange }: RankingMatrixProps) {
                       checked={value[rankIndex] === criterion.key}
                       onChange={() => toggle(criterion.key, rankIndex)}
                       aria-label={`${criterion.label} : ${label}`}
-                      className="h-5 w-5"
+                      // Case ronde (aspect bouton radio) qui reste décochable d'un second clic.
+                      className="h-5 w-5 cursor-pointer appearance-none rounded-full border-2 border-slate-400 bg-white transition checked:border-emerald-700 checked:bg-emerald-700 checked:shadow-[inset_0_0_0_3px_white] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700"
                     />
                   </label>
                 </td>
