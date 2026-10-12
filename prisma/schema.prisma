@@ -3,13 +3,17 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  /// Connexion « poolée » utilisée par l'application.
+  url       = env("DATABASE_URL")
+  /// Connexion directe utilisée par `prisma db push` pour créer les tables.
+  directUrl = env("DATABASE_URL_UNPOOLED")
 }
 
 /// Une ligne par participant (questionnaire complet ou screen-out).
-/// SQLite ne gère pas les enums : les modalités sont stockées sous forme de
-/// codes texte, listés dans src/lib/survey.ts.
+/// Les modalités sont stockées sous forme de codes texte, listés dans
+/// src/lib/survey.ts (pas d'enum en base : le questionnaire reste modifiable
+/// sans migration).
 model Response {
   id           Int    @id @default(autoincrement())
   respondentId String @unique

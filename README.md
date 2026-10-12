@@ -4,27 +4,28 @@ Application de collecte pour une étude marketing (master Marketing-Vente, IAE C
 questionnaire multi-étapes avec A/B testing du prix, Van Westendorp, Gabor-Granger, espace `/admin`
 et export CSV.
 
-Stack : Next.js (App Router, TypeScript), Tailwind CSS, Lucide Icons, Prisma + SQLite, Zod.
+Stack : Next.js (App Router, TypeScript), Tailwind CSS, Lucide Icons, Prisma + Postgres (Neon), Zod.
 
 ## Démarrage local
 
 ```bash
 npm install
-cp .env.example .env        # puis modifier ADMIN_PASSWORD dans .env
-npx prisma db push          # crée prisma/etude.db
+cp .env.example .env        # puis renseigner les deux URL Neon et ADMIN_PASSWORD
+npx prisma db push          # crée la table dans la base Neon
 npm run dev                 # http://localhost:3000
 ```
 
 - Questionnaire : http://localhost:3000
 - Administration : http://localhost:3000/admin (mot de passe = `ADMIN_PASSWORD`)
 
-Production : `npm run build` puis `npm run start`.
+En local, l'application écrit dans la base indiquée par `.env`. Pour ne pas mélanger essais et
+vraies réponses, utiliser une branche Neon distincte (Neon > Branches) pour le développement.
 
 ## Arborescence
 
 ```
 .
-├── .env.example                  Variables d'environnement (DATABASE_URL, ADMIN_PASSWORD)
+├── .env.example                  Variables d'environnement (base Neon, ADMIN_PASSWORD)
 ├── next.config.ts
 ├── postcss.config.mjs            Tailwind CSS v4
 ├── tsconfig.json
@@ -125,11 +126,12 @@ Lecture sous R : `read.csv2("fichier.csv", fileEncoding = "UTF-8-BOM")`.
 Remplacer `public/veste.svg` par la photo officielle, ou déposer par exemple `public/veste.jpg` et
 modifier `PRODUCT_IMAGE` dans `src/lib/survey.ts`.
 
-## Déploiement
+## Déploiement (Vercel + Neon, gratuit)
 
-SQLite écrit dans un fichier : il faut un hébergement avec disque persistant (VPS, Railway ou Fly.io
-avec volume). Sur Vercel ou Netlify, le système de fichiers est éphémère et les réponses seraient
-perdues : dans ce cas, passer `provider` à `postgresql` dans `prisma/schema.prisma` et pointer
-`DATABASE_URL` vers une base Postgres gratuite (Neon, Supabase).
+1. Sur vercel.com, importer le dépôt GitHub (Add New > Project).
+2. Dans le projet : Storage > Create Database > Neon, puis connecter la base au projet. Vercel
+   ajoute alors `DATABASE_URL` et `DATABASE_URL_UNPOOLED`.
+3. Settings > Environment Variables : ajouter `ADMIN_PASSWORD` (valeur longue et unique).
+4. Deployments > Redeploy. Le script `vercel-build` crée la table puis construit le site.
 
-Dans tous les cas, définir `ADMIN_PASSWORD` avec une valeur longue et servir le site en HTTPS.
+Chaque `git push` sur `main` redéploie ensuite automatiquement.
