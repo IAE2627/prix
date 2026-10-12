@@ -181,7 +181,6 @@ export type GgAnswer = (typeof GG_OPTIONS)[number]['value'];
 export const MANIP_OPTIONS = [
   { value: 'oui', label: 'Oui' },
   { value: 'non', label: 'Non' },
-  { value: 'ne_sait_pas', label: 'Je ne sais pas' },
 ] as const;
 export type ManipAnswer = (typeof MANIP_OPTIONS)[number]['value'];
 

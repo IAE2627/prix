@@ -163,7 +163,7 @@ export function Step4Measures({ state, update, onNext }: Step4Props) {
       </QuestionBlock>
 
       <QuestionBlock
-        title="La veste était-elle présentée en promotion ?"
+        title="La veste, vue précédemment, était-elle en promotion ?"
         error={showErrors && state.manipCheck === null ? REQUIRED : null}
       >
         <RadioList
@@ -171,7 +171,7 @@ export function Step4Measures({ state, update, onNext }: Step4Props) {
           options={MANIP_OPTIONS}
           value={state.manipCheck}
           onChange={(value) => update({ manipCheck: value })}
-          columns={3}
+          columns={2}
         />
       </QuestionBlock>
     </StepLayout>
