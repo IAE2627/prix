@@ -92,7 +92,7 @@ vraies réponses, utiliser une branche Neon distincte (Neon > Branches) pour le 
 | Q6 | Une case par ligne et par colonne ; cliquer un rang déjà pris remplace l'ancien critère. |
 | Van Westendorp | Alerte en temps réel et blocage si M5 < M6 < M7 < M8 n'est pas respecté. |
 | Gabor-Granger | 6 paliers uniques (99, 129, 179, 195, 239, 259 €), présentés par ordre croissant (du moins cher au plus cher) ; l'ordre affiché est enregistré dans `gg_ordre_affichage`. |
-| Manipulation check | `is_valid_manipulation` recalculé côté serveur. |
+| Manipulation check | Échelle en 5 points. `is_valid_manipulation` est recalculé côté serveur : version A valide si score ≤ 3, version B valide si score ≥ 4. |
 
 Choix complémentaires :
 
@@ -120,7 +120,7 @@ UTF-8 avec BOM, séparateur `;`, fins de ligne CRLF. Une ligne par participant.
 | `qp_fiabilite`, `qp_fabrication`, `qp_qualite`, `qp_confiance`, `qp_durabilite` | Qualité perçue, 1 à 5 (5 = perception la plus favorable) |
 | `vw_m5..m8` | euros entiers |
 | `gg_99`, `gg_129`, `gg_179`, `gg_195`, `gg_239`, `gg_259` | `oui_certainement`, `probablement`, `probablement_pas`, `non` |
-| `manipulation_check` | `oui`, `non` |
+| `manipulation_check` | 1 (Pas du tout) à 5 (Tout à fait) |
 | `eng_ressources`, `eng_temps`, `eng_efforts`, `eng_place`, `eng_occasions` | Engagement dans la pratique, 1 (pas du tout d'accord) à 5 (tout à fait d'accord) |
 
 Lecture sous R : `read.csv2("fichier.csv", fileEncoding = "UTF-8-BOM")`.

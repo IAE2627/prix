@@ -84,7 +84,9 @@ model Response {
   /// Ordre d'affichage des paliers pour ce répondant (croissant : "99|129|179|195|239|259")
   ggOrdre String?
 
-  // Manipulation check
+  // Manipulation check : 1 (Pas du tout) à 5 (Tout à fait)
+  manipCheckScore     Int?
+  /// Ancienne réponse Oui / Non / Je ne sais pas : conservée pour ne perdre aucune donnée, absente du CSV.
   manipCheck          String?
   isValidManipulation Boolean?
 

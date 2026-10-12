@@ -80,7 +80,7 @@ const COLUMNS: { header: string; value: (row: Response) => Cell }[] = [
   { header: 'gg_259', value: (r) => r.gg259 },
   { header: 'gg_ordre_affichage', value: (r) => r.ggOrdre },
 
-  { header: 'manipulation_check', value: (r) => r.manipCheck },
+  { header: 'manipulation_check', value: (r) => r.manipCheckScore },
 
   { header: 'genre', value: (r) => r.genre },
   { header: 'age', value: (r) => r.age },

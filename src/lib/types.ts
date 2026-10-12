@@ -6,7 +6,6 @@ import type {
   GgPrice,
   LastBudget,
   Level,
-  ManipAnswer,
   PurchaseAnswer,
   Ranking,
   Situation,
@@ -54,7 +53,7 @@ export interface SurveyState {
   qpDurabilite: number | null;
   vw: Record<VwKey, string>;
   gg: Record<string, GgAnswer | null>;
-  manipCheck: ManipAnswer | null;
+  manipCheck: number | null;
 
   genre: Gender | null;
   age: number | null;

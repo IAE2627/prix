@@ -69,7 +69,7 @@ function toRow(data: Submission, submittedAt: Date) {
     gg259: data.gg['259'],
     ggOrdre: data.ggOrder.join('|'),
 
-    manipCheck: data.manipCheck,
+    manipCheckScore: data.manipCheck,
     // Recalculé côté serveur : le flag ne dépend jamais de ce qu'envoie le navigateur.
     isValidManipulation: isValidManipulation(data.version, data.manipCheck),
 

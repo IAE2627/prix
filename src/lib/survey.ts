@@ -102,41 +102,40 @@ export type Ranking = [CriterionKey | null, CriterionKey | null, CriterionKey | 
 // Partie 4 : mesures
 // ---------------------------------------------------------------------------
 
+/** Intitulés des 5 points d'une échelle, du score 1 au score 5. */
+export type ScaleLabels = readonly [string, string, string, string, string];
+
+export const SCALE_LEVEL: ScaleLabels = ['Très faible', 'Faible', 'Moyenne', 'Élevée', 'Très élevée'];
+export const SCALE_QUALITY: ScaleLabels = [
+  'Très mauvaise qualité',
+  'Mauvaise qualité',
+  'Qualité moyenne',
+  'Bonne qualité',
+  'Très bonne qualité',
+];
+export const SCALE_AGREEMENT: ScaleLabels = [
+  "Pas du tout d'accord",
+  "Plutôt pas d'accord",
+  "Ni d'accord ni pas d'accord",
+  "Plutôt d'accord",
+  "Tout à fait d'accord",
+];
+export const SCALE_MANIP: ScaleLabels = ['Pas du tout', 'Plutôt non', 'Moyennement', 'Plutôt oui', 'Tout à fait'];
+
 /**
- * Qualité perçue : 5 items sur une échelle de 1 à 5, où 5 correspond toujours
- * à la perception la plus favorable.
+ * Qualité perçue : 5 items sur une échelle en 5 points, où le score 5 correspond
+ * toujours à la perception la plus favorable.
  */
 export const QUALITY_ITEMS = [
-  {
-    key: 'qpFiabilite',
-    statement: 'La probabilité que le produit soit fiable est :',
-    minLabel: 'Très faible',
-    maxLabel: 'Très élevée',
-  },
-  {
-    key: 'qpFabrication',
-    statement: 'La qualité de fabrication du produit serait :',
-    minLabel: 'Très faible',
-    maxLabel: 'Très élevée',
-  },
-  {
-    key: 'qpQualite',
-    statement: 'Ce produit devrait être de :',
-    minLabel: 'Très mauvaise qualité',
-    maxLabel: 'Très bonne qualité',
-  },
+  { key: 'qpFiabilite', statement: 'La probabilité que le produit soit fiable est :', labels: SCALE_LEVEL },
+  { key: 'qpFabrication', statement: 'La qualité de fabrication du produit serait :', labels: SCALE_LEVEL },
+  { key: 'qpQualite', statement: 'Ce produit devrait être de :', labels: SCALE_QUALITY },
   {
     key: 'qpConfiance',
     statement: 'La probabilité que ce produit soit digne de confiance est :',
-    minLabel: 'Très faible',
-    maxLabel: 'Très élevée',
+    labels: SCALE_LEVEL,
   },
-  {
-    key: 'qpDurabilite',
-    statement: 'Ce produit semble durable.',
-    minLabel: "Pas du tout d'accord",
-    maxLabel: "Tout à fait d'accord",
-  },
+  { key: 'qpDurabilite', statement: 'Ce produit semble durable.', labels: SCALE_AGREEMENT },
 ] as const;
 export type QualityKey = (typeof QUALITY_ITEMS)[number]['key'];
 
@@ -178,11 +177,8 @@ export const GG_OPTIONS = [
 ] as const;
 export type GgAnswer = (typeof GG_OPTIONS)[number]['value'];
 
-export const MANIP_OPTIONS = [
-  { value: 'oui', label: 'Oui' },
-  { value: 'non', label: 'Non' },
-] as const;
-export type ManipAnswer = (typeof MANIP_OPTIONS)[number]['value'];
+/** Seuil à partir duquel la réponse au manipulation check signifie « oui, en promotion » (Plutôt oui). */
+export const MANIP_YES_THRESHOLD = 4;
 
 // ---------------------------------------------------------------------------
 // Partie 5 : profil
@@ -218,8 +214,6 @@ export const ENGAGEMENT_ITEMS = [
   { key: 'engOccasions', statement: 'Je cherche régulièrement des occasions de pratiquer ma passion.' },
 ] as const;
 export type EngagementKey = (typeof ENGAGEMENT_ITEMS)[number]['key'];
-export const AGREEMENT_MIN_LABEL = "Pas du tout d'accord";
-export const AGREEMENT_MAX_LABEL = "Tout à fait d'accord";
 
 export const RESPONSE_STATUSES = ['completed', 'screened_out_q1', 'screened_out_q2'] as const;
 export type ResponseStatus = (typeof RESPONSE_STATUSES)[number];
@@ -270,13 +264,14 @@ export function sportLabel(key: SportKey, autreText: string): string {
 }
 
 /**
- * Manipulation check : la version A ne présente aucune promotion, la version B
- * en présente une. Toute réponse incohérente avec la condition invalide le flag.
+ * Manipulation check, mesuré de 1 (Pas du tout) à 5 (Tout à fait).
+ * La version A ne présente aucune promotion, la version B en présente une :
+ * - version A : invalide si le répondant affirme avoir vu une promotion (score >= 4) ;
+ * - version B : invalide s'il ne l'affirme pas (score <= 3).
  */
-export function isValidManipulation(version: Version, answer: ManipAnswer): boolean {
-  if (version === 'A' && answer === 'oui') return false;
-  if (version === 'B' && answer !== 'oui') return false;
-  return true;
+export function isValidManipulation(version: Version, score: number): boolean {
+  const sawPromotion = score >= MANIP_YES_THRESHOLD;
+  return version === 'B' ? sawPromotion : !sawPromotion;
 }
 
 /** Convertit une saisie en euros entiers strictement positifs, sinon null. */

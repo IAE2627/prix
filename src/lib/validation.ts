@@ -9,7 +9,6 @@ import {
   GG_PRICES,
   LAST_BUDGET_OPTIONS,
   LEVELS,
-  MANIP_OPTIONS,
   PURCHASE_OPTIONS,
   SITUATIONS,
   SPORTS,
@@ -104,7 +103,7 @@ const completed = z
       '239': ggAnswer,
       '259': ggAnswer,
     }),
-    manipCheck: z.enum(valuesOf(MANIP_OPTIONS)),
+    manipCheck: likert,
 
     genre: z.enum(valuesOf(GENDERS)),
     age: z.number().int().min(AGE_MIN).max(AGE_MAX),

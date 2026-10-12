@@ -3,7 +3,7 @@ import type { Response } from '@prisma/client';
 import { Download } from 'lucide-react';
 import { isAdminAuthenticated, isAdminConfigured } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-import { GENDERS, LEVELS, MANIP_OPTIONS, PRICE, labelOf } from '@/lib/survey';
+import { GENDERS, LEVELS, PRICE, SCALE_MANIP, labelOf } from '@/lib/survey';
 import { DeleteButton } from './DeleteButton';
 import { LoginForm } from './LoginForm';
 import { LogoutButton } from './LogoutButton';
@@ -187,7 +187,11 @@ export default async function AdminPage() {
                     </span>
                   </td>
                   <td className="px-4 py-2.5 font-semibold">{row.assignedVersion}</td>
-                  <td className="px-4 py-2.5">{labelOf(MANIP_OPTIONS, row.manipCheck) || '–'}</td>
+                  <td className="px-4 py-2.5">
+                    {row.manipCheckScore !== null
+                      ? `${row.manipCheckScore} · ${SCALE_MANIP[row.manipCheckScore - 1]}`
+                      : (row.manipCheck ?? '–')}
+                  </td>
                   <td className="px-4 py-2.5">
                     {row.isValidManipulation === null ? (
                       '–'

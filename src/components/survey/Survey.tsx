@@ -20,7 +20,7 @@ import { Step4Measures, parseVw } from './Step4Measures';
 import { Step5Profile } from './Step5Profile';
 
 // Incrémenter la version quand la structure des réponses change (ex. paliers de prix).
-const STORAGE_KEY = 'etude-veste-outdoor:v5';
+const STORAGE_KEY = 'etude-veste-outdoor:v6';
 const STAGES: Stage[] = ['consent', 'step1', 'step2', 'step3', 'step4', 'step5', 'done', 'screenout'];
 
 /** Tirage aléatoire de la version A/B effectué une seule fois, au chargement. */

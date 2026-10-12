@@ -5,12 +5,11 @@ import { AlertTriangle } from 'lucide-react';
 import { LikertScale } from '@/components/ui/LikertScale';
 import { MatrixQuestion } from '@/components/ui/MatrixQuestion';
 import { QuestionBlock } from '@/components/ui/QuestionBlock';
-import { RadioList } from '@/components/ui/RadioList';
 import { StepLayout } from '@/components/ui/StepLayout';
 import {
   GG_OPTIONS,
-  MANIP_OPTIONS,
   QUALITY_ITEMS,
+  SCALE_MANIP,
   VW_FIELDS,
   parseEuro,
   vwCoherenceErrors,
@@ -79,8 +78,7 @@ export function Step4Measures({ state, update, onNext }: Step4Props) {
             name={item.key}
             value={state[item.key]}
             onChange={(value) => update({ [item.key]: value })}
-            minLabel={item.minLabel}
-            maxLabel={item.maxLabel}
+            labels={item.labels}
           />
         </QuestionBlock>
       ))}
@@ -163,15 +161,14 @@ export function Step4Measures({ state, update, onNext }: Step4Props) {
       </QuestionBlock>
 
       <QuestionBlock
-        title="La veste, vue précédemment, était-elle en promotion ?"
+        title="Est-ce que la veste, vue précédemment, était en promotion ?"
         error={showErrors && state.manipCheck === null ? REQUIRED : null}
       >
-        <RadioList
+        <LikertScale
           name="manipCheck"
-          options={MANIP_OPTIONS}
           value={state.manipCheck}
           onChange={(value) => update({ manipCheck: value })}
-          columns={2}
+          labels={SCALE_MANIP}
         />
       </QuestionBlock>
     </StepLayout>

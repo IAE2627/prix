@@ -9,10 +9,9 @@ import { StepLayout } from '@/components/ui/StepLayout';
 import {
   AGE_MAX,
   AGE_MIN,
-  AGREEMENT_MAX_LABEL,
-  AGREEMENT_MIN_LABEL,
   ENGAGEMENT_ITEMS,
   GENDERS,
+  SCALE_AGREEMENT,
   SITUATIONS,
 } from '@/lib/survey';
 import type { StepProps } from '@/lib/types';
@@ -113,8 +112,7 @@ export function Step5Profile({ state, update, onSubmit, onBack, submitting, subm
               name={item.key}
               value={state[item.key]}
               onChange={(value) => update({ [item.key]: value })}
-              minLabel={AGREEMENT_MIN_LABEL}
-              maxLabel={AGREEMENT_MAX_LABEL}
+              labels={SCALE_AGREEMENT}
             />
           </QuestionBlock>
         ))}
