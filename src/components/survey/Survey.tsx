@@ -7,7 +7,6 @@ import {
   VERSIONS,
   assignVersion,
   generateRespondentId,
-  shuffle,
   type FrequencyMatrix,
 } from '@/lib/survey';
 import type { Stage, SurveyState } from '@/lib/types';
@@ -21,15 +20,16 @@ import { Step4Measures, parseVw } from './Step4Measures';
 import { Step5Profile } from './Step5Profile';
 
 // Incrémenter la version quand la structure des réponses change (ex. paliers de prix).
-const STORAGE_KEY = 'etude-veste-outdoor:v2';
+const STORAGE_KEY = 'etude-veste-outdoor:v3';
 const STAGES: Stage[] = ['consent', 'step1', 'step2', 'step3', 'step4', 'step5', 'done', 'screenout'];
 
-/** Tirages aléatoires (version A/B, ordre Gabor-Granger) effectués une seule fois, au chargement. */
+/** Tirage aléatoire de la version A/B effectué une seule fois, au chargement. */
 function createInitialState(): SurveyState {
   return {
     respondentId: generateRespondentId(),
     version: assignVersion(),
-    ggOrder: shuffle(GG_PRICES),
+    // Paliers Gabor-Granger présentés du prix le plus bas au plus élevé.
+    ggOrder: [...GG_PRICES].sort((a, b) => a - b),
     startedAt: null,
     consent: false,
     q1: null,

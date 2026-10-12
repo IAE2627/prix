@@ -200,16 +200,6 @@ export function assignVersion(): Version {
   return randomInt(2) === 0 ? 'A' : 'B';
 }
 
-/** Mélange de Fisher-Yates (copie, sans muter l'entrée). */
-export function shuffle<T>(items: readonly T[]): T[] {
-  const result = [...items];
-  for (let i = result.length - 1; i > 0; i--) {
-    const j = randomInt(i + 1);
-    [result[i], result[j]] = [result[j], result[i]];
-  }
-  return result;
-}
-
 /** crypto.randomUUID n'existe pas hors contexte sécurisé (test en http sur le réseau local). */
 export function generateRespondentId(): string {
   if (typeof crypto.randomUUID === 'function') return crypto.randomUUID();

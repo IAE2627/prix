@@ -91,7 +91,7 @@ vraies réponses, utiliser une branche Neon distincte (Neon > Branches) pour le 
 | Q4 contextualisée | « Quel est votre niveau en « sport » ? » |
 | Q6 | Une case par ligne et par colonne ; cliquer un rang déjà pris remplace l'ancien critère. |
 | Van Westendorp | Alerte en temps réel et blocage si M5 < M6 < M7 < M8 n'est pas respecté. |
-| Gabor-Granger | 6 paliers uniques (99, 129, 179, 195, 239, 259 €), ordre mélangé par répondant, ordre enregistré dans `gg_ordre_affichage`. |
+| Gabor-Granger | 6 paliers uniques (99, 129, 179, 195, 239, 259 €), présentés par ordre croissant (du moins cher au plus cher) ; l'ordre affiché est enregistré dans `gg_ordre_affichage`. |
 | Manipulation check | `is_valid_manipulation` recalculé côté serveur. |
 
 Choix complémentaires :

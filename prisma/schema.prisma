@@ -73,7 +73,7 @@ model Response {
   gg199   String?
   gg239   String?
   gg259   String?
-  /// Ordre d'affichage des paliers pour ce répondant, ex. "195|99|259|129|239|179"
+  /// Ordre d'affichage des paliers pour ce répondant (croissant : "99|129|179|195|239|259")
   ggOrdre String?
 
   // Manipulation check
