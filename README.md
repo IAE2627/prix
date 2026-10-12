@@ -85,7 +85,7 @@ vraies réponses, utiliser une branche Neon distincte (Neon > Branches) pour le 
 | Règle | Implémentation |
 | --- | --- |
 | Randomisation A/B 50/50 | Tirage `crypto` au chargement, conservé pour l'onglet (un rechargement ne change pas la condition), enregistré dans `assigned_version`. |
-| Q1 = Non | Le répondant saute Q2 à Q4 et poursuit à partir de Q5 ; ces colonnes restent vides dans le CSV. |
+| Q1 = Non | Le répondant saute Q2 à Q4 et poursuit à partir de Q5 ; l'échelle d'engagement (étape 5) ne lui est pas posée. Ces colonnes restent vides dans le CSV. |
 | Screen-out Q2 | Toutes les lignes à « Jamais » (y compris « Autre ») : écran de fin au clic sur « Suivant ». |
 | Q3 dynamique | Uniquement les sports pratiqués en Q2 ; « Autre » affiche le texte saisi. |
 | Q4 contextualisée | « Quel est votre niveau en « sport » ? » |

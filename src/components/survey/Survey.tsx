@@ -177,8 +177,8 @@ export default function Survey() {
   const submit = async () => {
     setSubmitting(true);
     setSubmitError(null);
-    // Q1 = Non : Q2 à Q4 n'ont pas été posées, elles restent vides même si le
-    // répondant avait commencé à y répondre avant de changer d'avis.
+    // Q1 = Non : Q2 à Q4 et l'échelle d'engagement n'ont pas été posées, elles restent
+    // vides même si le répondant avait commencé à y répondre avant de changer d'avis.
     const practises = state.q1 === 'oui';
     const ok = await postSubmission({
       ...identity,
@@ -204,11 +204,11 @@ export default function Survey() {
       genre: state.genre,
       age: state.age,
       situation: state.situation,
-      engRessources: state.engRessources,
-      engTemps: state.engTemps,
-      engEfforts: state.engEfforts,
-      engPlace: state.engPlace,
-      engOccasions: state.engOccasions,
+      engRessources: practises ? state.engRessources : null,
+      engTemps: practises ? state.engTemps : null,
+      engEfforts: practises ? state.engEfforts : null,
+      engPlace: practises ? state.engPlace : null,
+      engOccasions: practises ? state.engOccasions : null,
     });
     setSubmitting(false);
     if (ok) {

@@ -109,11 +109,12 @@ const completed = z
     genre: z.enum(valuesOf(GENDERS)),
     age: z.number().int().min(AGE_MIN).max(AGE_MAX),
     situation: z.enum(valuesOf(SITUATIONS)),
-    engRessources: likert,
-    engTemps: likert,
-    engEfforts: likert,
-    engPlace: likert,
-    engOccasions: likert,
+    // Échelle d'engagement : posée uniquement si Q1 = Oui.
+    engRessources: likert.nullable(),
+    engTemps: likert.nullable(),
+    engEfforts: likert.nullable(),
+    engPlace: likert.nullable(),
+    engOccasions: likert.nullable(),
   })
   .superRefine((data, ctx) => {
     if (data.q1 === 'non') {
@@ -142,6 +143,14 @@ const completed = z
     }
     if (data.q5 !== 'non_jamais' && data.q5b === null) {
       ctx.addIssue({ code: 'custom', path: ['q5b'], message: 'Q5b est requise.' });
+    }
+
+    const engagement = [data.engRessources, data.engTemps, data.engEfforts, data.engPlace, data.engOccasions];
+    if (data.q1 === 'oui' && engagement.some((item) => item === null)) {
+      ctx.addIssue({ code: 'custom', path: ['engRessources'], message: "L'échelle d'engagement est requise si Q1 = Oui." });
+    }
+    if (data.q1 === 'non' && engagement.some((item) => item !== null)) {
+      ctx.addIssue({ code: 'custom', path: ['engRessources'], message: "L'échelle d'engagement ne doit pas être renseignée si Q1 = Non." });
     }
 
     if (new Set(data.q6).size !== data.q6.length) {

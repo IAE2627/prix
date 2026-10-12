@@ -30,11 +30,15 @@ const SLIDER_REQUIRED = 'Merci de déplacer le curseur pour indiquer votre répo
 export function Step5Profile({ state, update, onSubmit, onBack, submitting, submitError }: Step5Props) {
   const [showErrors, setShowErrors] = useState(false);
 
+  // L'échelle d'engagement porte sur « ma passion » : elle n'est posée qu'aux
+  // répondants ayant déclaré pratiquer une activité outdoor (Q1 = Oui).
+  const showEngagement = state.q1 === 'oui';
+
   const hasErrors =
     state.genre === null ||
     state.age === null ||
     state.situation === null ||
-    ENGAGEMENT_ITEMS.some((item) => state[item.key] === null);
+    (showEngagement && ENGAGEMENT_ITEMS.some((item) => state[item.key] === null));
 
   const handleSubmit = () => {
     if (hasErrors) {
@@ -92,25 +96,28 @@ export function Step5Profile({ state, update, onSubmit, onBack, submitting, subm
         />
       </QuestionBlock>
 
-      <p className="pt-2 text-sm font-medium leading-relaxed text-slate-800">
-        Pour finir, indiquez votre degré d&apos;accord avec les affirmations suivantes.
-      </p>
+      {showEngagement && (
+        <p className="pt-2 text-sm font-medium leading-relaxed text-slate-800">
+          Pour finir, indiquez votre degré d&apos;accord avec les affirmations suivantes.
+        </p>
+      )}
 
-      {ENGAGEMENT_ITEMS.map((item) => (
-        <QuestionBlock
-          key={item.key}
-          title={item.statement}
-          error={showErrors && state[item.key] === null ? REQUIRED : null}
-        >
-          <LikertScale
-            name={item.key}
-            value={state[item.key]}
-            onChange={(value) => update({ [item.key]: value })}
-            minLabel={AGREEMENT_MIN_LABEL}
-            maxLabel={AGREEMENT_MAX_LABEL}
-          />
-        </QuestionBlock>
-      ))}
+      {showEngagement &&
+        ENGAGEMENT_ITEMS.map((item) => (
+          <QuestionBlock
+            key={item.key}
+            title={item.statement}
+            error={showErrors && state[item.key] === null ? REQUIRED : null}
+          >
+            <LikertScale
+              name={item.key}
+              value={state[item.key]}
+              onChange={(value) => update({ [item.key]: value })}
+              minLabel={AGREEMENT_MIN_LABEL}
+              maxLabel={AGREEMENT_MAX_LABEL}
+            />
+          </QuestionBlock>
+        ))}
     </StepLayout>
   );
 }
