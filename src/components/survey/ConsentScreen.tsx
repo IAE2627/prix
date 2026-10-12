@@ -17,17 +17,13 @@ export function ConsentScreen({ consent, onConsentChange, onStart }: ConsentScre
       <div className="mt-5 space-y-4 text-[15px] leading-relaxed text-slate-700">
         <p className="font-semibold text-slate-900">Bienvenue et merci de votre participation !</p>
         <p>
-          Dans le cadre de notre master Marketing-Vente et de notre cours « Prix et budget marketing » à
-          L’IAE Clermont-Auvergne, nous réalisons une étude sur la perception du prix d&apos;une veste
-          outdoor. Vos réponses nous aideront à comprendre ce que les consommateurs sont prêts à payer pour
-          ce type de produit.
+          Dans le cadre de notre Master Marketing-Vente à l’IAE Clermont-Auvergne, nous réalisons une étude
+          sur la perception du prix d&apos;une veste outdoor. Vos réponses nous aideront à comprendre ce que
+          les consommateurs sont prêts à payer pour ce type de produit.
         </p>
         <p>
-          Je comprends que ma participation à cette étude est volontaire et que je peux y mettre fin à tout
-          moment, sans avoir à fournir de justification. Je suis conscient(e) que mes réponses resteront
-          anonymes et confidentielles, et qu’elles ne seront utilisées qu’à des fins pédagogiques. J’ai
-          également été informé(e) que je suis libre de ne pas répondre à certaines questions si je le
-          souhaite.
+          Je comprends que ma participation est volontaire et que je peux y mettre fin à tout moment. Mes
+          réponses sont anonymes et confidentielles, elles ne seront utilisées qu’à des fins pédagogiques.
         </p>
       </div>
 
@@ -42,7 +38,7 @@ export function ConsentScreen({ consent, onConsentChange, onStart }: ConsentScre
           onChange={(event) => onConsentChange(event.currentTarget.checked)}
           className="h-5 w-5 shrink-0"
         />
-        <span className="font-semibold text-slate-900">Je suis consentant</span>
+        <span className="font-semibold text-slate-900">J’accepte</span>
       </label>
 
       <button
