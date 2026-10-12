@@ -157,12 +157,7 @@ export default function Survey() {
     setStage('step1');
   };
 
-  // Les screen-outs sont enregistrés pour pouvoir calculer le taux d'éligibilité.
-  const screenOutQ1 = () => {
-    setStage('screenout');
-    void postSubmission({ ...identity, status: 'screened_out_q1', q1: 'non' });
-  };
-
+  // Le screen-out est enregistré pour pouvoir calculer le taux d'éligibilité.
   const screenOutQ2 = (q2: FrequencyMatrix) => {
     setStage('screenout');
     void postSubmission({
@@ -177,15 +172,18 @@ export default function Survey() {
   const submit = async () => {
     setSubmitting(true);
     setSubmitError(null);
+    // Q1 = Non : Q2 à Q4 n'ont pas été posées, elles restent vides même si le
+    // répondant avait commencé à y répondre avant de changer d'avis.
+    const practises = state.q1 === 'oui';
     const ok = await postSubmission({
       ...identity,
       status: 'completed',
       ggOrder: state.ggOrder,
       q1: state.q1,
-      q2: state.q2,
-      q2AutreText: state.q2AutreText.trim(),
-      q3: state.q3,
-      q4: state.q4,
+      q2: practises ? state.q2 : null,
+      q2AutreText: practises ? state.q2AutreText.trim() : '',
+      q3: practises ? state.q3 : null,
+      q4: practises ? state.q4 : null,
       q5: state.q5,
       q5b: state.q5 === 'non_jamais' ? null : state.q5b,
       q6: state.q6,
@@ -232,7 +230,6 @@ export default function Survey() {
           state={state}
           update={update}
           onNext={() => setStage('step2')}
-          onScreenOutQ1={screenOutQ1}
           onScreenOutQ2={screenOutQ2}
         />
       )}

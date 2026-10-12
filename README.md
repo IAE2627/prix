@@ -57,7 +57,7 @@ vraies réponses, utiliser une branche Neon distincte (Neon > Branches) pour le 
     │   │   ├── Survey.tsx        Orchestrateur : randomisation, étapes, envoi
     │   │   ├── Backdrop.tsx      Arrière-plan flouté
     │   │   ├── ConsentScreen.tsx
-    │   │   ├── Step1Practice.tsx Q1 à Q4 + screen-outs
+    │   │   ├── Step1Practice.tsx Q1 à Q4 + screen-out Q2
     │   │   ├── Step2Habits.tsx   Q5, Q5b, Q6
     │   │   ├── RankingMatrix.tsx Matrice de classement Q6
     │   │   ├── Step3Product.tsx  Fiche produit A/B
@@ -85,7 +85,7 @@ vraies réponses, utiliser une branche Neon distincte (Neon > Branches) pour le 
 | Règle | Implémentation |
 | --- | --- |
 | Randomisation A/B 50/50 | Tirage `crypto` au chargement, conservé pour l'onglet (un rechargement ne change pas la condition), enregistré dans `assigned_version`. |
-| Screen-out Q1 | « Non » redirige immédiatement vers l'écran de fin. |
+| Q1 = Non | Le répondant saute Q2 à Q4 et poursuit à partir de Q5 ; ces colonnes restent vides dans le CSV. |
 | Screen-out Q2 | Toutes les lignes à « Jamais » (y compris « Autre ») : écran de fin au clic sur « Suivant ». |
 | Q3 dynamique | Uniquement les sports pratiqués en Q2 ; « Autre » affiche le texte saisi. |
 | Q4 contextualisée | « Quel est votre niveau en « sport » ? » |
@@ -108,7 +108,7 @@ UTF-8 avec BOM, séparateur `;`, fins de ligne CRLF. Une ligne par participant.
 
 | Variable | Valeurs |
 | --- | --- |
-| `status` | `completed`, `screened_out_q1`, `screened_out_q2` |
+| `status` | `completed`, `screened_out_q2` (`screened_out_q1` : ancien statut, plus produit) |
 | `assigned_version` | `A` (195 €), `B` (245 € barré, 195 €, -20 %) |
 | `is_valid_manipulation` | `true` / `false` |
 | `q2_*` | `jamais`, `quelques_fois_par_an`, `1_a_3_fois_par_mois`, `chaque_semaine` |

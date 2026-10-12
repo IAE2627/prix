@@ -20,17 +20,16 @@ function toRow(data: Submission, submittedAt: Date) {
     q1Pratique: data.q1,
   };
 
-  if (data.status === 'screened_out_q1') return common;
-
+  // q2 est absent quand Q1 = Non : les colonnes Q2 à Q4 restent vides.
   const frequencies = {
-    q2Randonnee: data.q2.randonnee,
-    q2Trail: data.q2.trail,
-    q2Ski: data.q2.ski,
-    q2Alpinisme: data.q2.alpinisme,
-    q2Vtt: data.q2.vtt,
-    q2Nautique: data.q2.nautique,
-    q2Camping: data.q2.camping,
-    q2Autre: data.q2.autre,
+    q2Randonnee: data.q2?.randonnee ?? null,
+    q2Trail: data.q2?.trail ?? null,
+    q2Ski: data.q2?.ski ?? null,
+    q2Alpinisme: data.q2?.alpinisme ?? null,
+    q2Vtt: data.q2?.vtt ?? null,
+    q2Nautique: data.q2?.nautique ?? null,
+    q2Camping: data.q2?.camping ?? null,
+    q2Autre: data.q2?.autre ?? null,
     q2AutreTexte: data.q2AutreText || null,
   };
 
@@ -40,7 +39,7 @@ function toRow(data: Submission, submittedAt: Date) {
     ...common,
     ...frequencies,
     q3SportPrincipal: data.q3,
-    q3SportLibelle: sportLabel(data.q3, data.q2AutreText),
+    q3SportLibelle: data.q3 ? sportLabel(data.q3, data.q2AutreText) : null,
     q4Niveau: data.q4,
 
     q5AchatVeste: data.q5,

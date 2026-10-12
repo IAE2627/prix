@@ -21,11 +21,10 @@ import type { StepProps } from '@/lib/types';
 
 interface Step1Props extends StepProps {
   onNext: () => void;
-  onScreenOutQ1: () => void;
   onScreenOutQ2: (q2: FrequencyMatrix) => void;
 }
 
-export function Step1Practice({ state, update, onNext, onScreenOutQ1, onScreenOutQ2 }: Step1Props) {
+export function Step1Practice({ state, update, onNext, onScreenOutQ2 }: Step1Props) {
   const [showErrors, setShowErrors] = useState(false);
 
   const autreText = state.q2AutreText.trim();
@@ -33,7 +32,6 @@ export function Step1Practice({ state, update, onNext, onScreenOutQ1, onScreenOu
 
   const handleQ1 = (value: YesNo) => {
     update({ q1: value });
-    if (value === 'non') onScreenOutQ1();
   };
 
   const handleFrequency = (rowKey: string, value: Frequency) => {
@@ -59,6 +57,11 @@ export function Step1Practice({ state, update, onNext, onScreenOutQ1, onScreenOu
   else if (autreNeedsText) q2Error = 'Merci de préciser l’activité « Autre », ou de la passer à « Jamais ».';
 
   const handleNext = () => {
+    // Les non-pratiquants passent directement aux habitudes d'achat (Q5), sans Q2 à Q4.
+    if (state.q1 === 'non') {
+      onNext();
+      return;
+    }
     if (state.q1 !== 'oui' || q2Error) {
       setShowErrors(true);
       return;
@@ -108,7 +111,9 @@ export function Step1Practice({ state, update, onNext, onScreenOutQ1, onScreenOu
 
   const q3Options = practiced.map((key) => ({ value: key, label: sportLabel(key, state.q2AutreText) }));
   const hasErrors =
-    state.q1 === null || q2Error !== null || (practiced.length > 0 && (state.q3 === null || state.q4 === null));
+    state.q1 === null ||
+    (state.q1 === 'oui' &&
+      (q2Error !== null || (practiced.length > 0 && (state.q3 === null || state.q4 === null))));
 
   return (
     <StepLayout

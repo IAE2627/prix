@@ -13,6 +13,7 @@ export const dynamic = 'force-dynamic';
 
 const STATUS_LABELS: Record<string, { label: string; className: string }> = {
   completed: { label: 'Complet', className: 'bg-emerald-100 text-emerald-900' },
+  // Ancien statut (avant que Q1 = Non ne poursuive le questionnaire).
   screened_out_q1: { label: 'Screen-out Q1', className: 'bg-slate-200 text-slate-700' },
   screened_out_q2: { label: 'Screen-out Q2', className: 'bg-slate-200 text-slate-700' },
 };
@@ -95,7 +96,7 @@ export default async function AdminPage() {
 
       <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-5">
         <StatCard label="Questionnaires complets" value={completed.length} />
-        <StatCard label="Screen-outs" value={screenedOut} detail="Q1 = Non ou Q2 tout à « Jamais »" />
+        <StatCard label="Screen-outs" value={screenedOut} detail="Q2 tout à « Jamais »" />
         <StatCard label={`Version A (${PRICE} €)`} value={versionA.length} />
         <StatCard label="Version B (promotion)" value={versionB.length} />
         <StatCard

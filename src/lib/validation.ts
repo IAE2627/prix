@@ -59,12 +59,6 @@ const base = {
   startedAt: z.string().refine((value) => !Number.isNaN(Date.parse(value)), 'Date invalide'),
 };
 
-const screenedOutQ1 = z.object({
-  ...base,
-  status: z.literal('screened_out_q1'),
-  q1: z.literal('non'),
-});
-
 const screenedOutQ2 = z
   .object({
     ...base,
@@ -85,11 +79,12 @@ const completed = z
     status: z.literal('completed'),
     ggOrder: z.array(z.number().int()).length(GG_PRICES.length),
 
-    q1: z.literal('oui'),
-    q2: frequencyMatrix,
+    // Q1 = Non : le répondant saute Q2 à Q4, qui doivent alors rester vides.
+    q1: z.enum(['oui', 'non']),
+    q2: frequencyMatrix.nullable(),
     q2AutreText: z.string().trim().max(80),
-    q3: z.enum(sportKeys),
-    q4: z.enum(valuesOf(LEVELS)),
+    q3: z.enum(sportKeys).nullable(),
+    q4: z.enum(valuesOf(LEVELS)).nullable(),
 
     q5: z.enum(valuesOf(PURCHASE_OPTIONS)),
     q5b: z.enum(valuesOf(LAST_BUDGET_OPTIONS)).nullable(),
@@ -118,17 +113,25 @@ const completed = z
     budget: z.number().int().min(BUDGET_MIN).max(BUDGET_MAX),
   })
   .superRefine((data, ctx) => {
-    const q2 = data.q2 as FrequencyMatrix;
-    const practiced = practicedSports(q2);
+    if (data.q1 === 'non') {
+      if (data.q2 !== null || data.q3 !== null || data.q4 !== null || data.q2AutreText.length > 0) {
+        ctx.addIssue({ code: 'custom', path: ['q2'], message: 'Q2 à Q4 ne doivent pas être renseignées si Q1 = Non.' });
+      }
+    } else if (data.q2 === null || data.q3 === null || data.q4 === null) {
+      ctx.addIssue({ code: 'custom', path: ['q2'], message: 'Q2 à Q4 sont requises si Q1 = Oui.' });
+    } else {
+      const q2 = data.q2 as FrequencyMatrix;
+      const practiced = practicedSports(q2);
 
-    if (practiced.length === 0) {
-      ctx.addIssue({ code: 'custom', path: ['q2'], message: 'Aucune activité pratiquée.' });
-    }
-    if (q2.autre !== 'jamais' && data.q2AutreText.length === 0) {
-      ctx.addIssue({ code: 'custom', path: ['q2AutreText'], message: 'Activité « Autre » non précisée.' });
-    }
-    if (!practiced.includes(data.q3)) {
-      ctx.addIssue({ code: 'custom', path: ['q3'], message: 'Sport principal non pratiqué en Q2.' });
+      if (practiced.length === 0) {
+        ctx.addIssue({ code: 'custom', path: ['q2'], message: 'Aucune activité pratiquée.' });
+      }
+      if (q2.autre !== 'jamais' && data.q2AutreText.length === 0) {
+        ctx.addIssue({ code: 'custom', path: ['q2AutreText'], message: 'Activité « Autre » non précisée.' });
+      }
+      if (!practiced.includes(data.q3)) {
+        ctx.addIssue({ code: 'custom', path: ['q3'], message: 'Sport principal non pratiqué en Q2.' });
+      }
     }
 
     if (data.q5 === 'non_jamais' && data.q5b !== null) {
@@ -152,7 +155,7 @@ const completed = z
     }
   });
 
-export const submissionSchema = z.discriminatedUnion('status', [screenedOutQ1, screenedOutQ2, completed]);
+export const submissionSchema = z.discriminatedUnion('status', [screenedOutQ2, completed]);
 
 export type Submission = z.infer<typeof submissionSchema>;
 export type CompletedSubmission = z.infer<typeof completed>;

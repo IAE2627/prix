@@ -18,7 +18,7 @@ model Response {
   id           Int    @id @default(autoincrement())
   respondentId String @unique
 
-  /// "completed" | "screened_out_q1" | "screened_out_q2"
+  /// "completed" | "screened_out_q2" ("screened_out_q1" : ancien statut, plus produit)
   status          String
   /// "A" (prix seul) | "B" (prix de référence barré + remise) ; montants dans src/lib/survey.ts
   assignedVersion String
